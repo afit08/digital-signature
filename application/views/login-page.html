@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="{{base_url}}assets/login/fonts/icomoon/style.css">
+
+	<link rel="stylesheet" href="{{base_url}}assets/login/css/owl.carousel.min.css">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{{base_url}}assets/login/css/bootstrap.min.css">
+
+	<!-- Style -->
+	<link rel="stylesheet" href="{{base_url}}assets/login/css/style.css">
+
+	<!-- sweet alert css -->
+	<link rel="stylesheet" href="{{base_url}}assets/plugins/sweetalert2/sweetalert2.min.css">
+
+	<link rel="shortcut icon" href="{{base_url}}assets/dist/img/digital-signature.png" type="image/x-icon">
+
+	<title>Login Page</title>
+</head>
+
+<body>
+	<div class="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 order-md-2">
+					<img src="{{base_url}}assets/dist/img/digital-signature.svg" alt="Image" class="img-fluid">
+				</div>
+				<div class="col-md-6 contents" style="margin-top: 140px !important;">
+					<div class="row justify-content-center">
+						<div class="col-md-8">
+							<div class="mb-4">
+								<h3>Masuk Terlebih Dahulu</h3>
+							</div>
+							<form id="form-login" method="post">
+								<div class="form-group first">
+									<label for="username">Username</label>
+									<input type="text" class="form-control" id="email-login" name="email" required>
+									<div class="invalid-feedback">
+										Mohon masukan email yang valid !
+									</div>
+								</div>
+								<div class="form-group last mb-4">
+									<label for="password">Password</label>
+									<input type="password" class="form-control" id="password-login" name="password"
+										required>
+									<div class="invalid-feedback">
+										Password kurang dari 8 karakter !
+									</div>
+								</div>
+
+								<!-- <div class="d-flex mb-5 align-items-center">
+									<span class="ml-auto"><a href="{{base_url}}assets/login/#"
+											class="forgot-pass">Forgot Password</a></span>
+								</div> -->
+
+								<input type="submit" value="Log In" id="btn-login" disabled
+									class="btn text-white btn-block btn-primary">
+							</form>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<script src="{{base_url}}assets/login/js/jquery-3.3.1.min.js"></script>
+	<script src="{{base_url}}assets/login/js/popper.min.js"></script>
+	<script src="{{base_url}}assets/login/js/bootstrap.min.js"></script>
+	<script src="{{base_url}}assets/login/js/main.js"></script>
+	<script src="{{base_url}}assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+	<script src="{{base_url}}assets/action/auth.js">
+	</script>
+</body>
+
+</html>

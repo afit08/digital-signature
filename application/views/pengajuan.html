@@ -1,0 +1,182 @@
+{% extends "template/layout.html" %}
+{% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{page}}</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Manajemen {{page}}</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="d-inline">
+                            List Data Pengajuan
+                            <span class="float-right">
+                                {% if level_akun_login == 3 %}
+                                <button class="btn btn-primary btn-sm " id="btn-tambah"> <i
+                                        class="fa fa-plus-circle"></i> Tambah
+                                    Data</button>
+                                {% endif %}
+                                {% if level_akun_login == 1 %}
+                                <a href="viewHapusPengajuan" class="btn btn-warning btn-sm "> <i
+                                        class="fa fa-recycle"></i>
+                                    List Hapus Sementara</a>
+                                {% endif %}
+                            </span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <table id="table-pengajuan" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Perihal</th>
+                                    <th>Nama File</th>
+                                    <th>Tanggal Pengajuan</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/. container-fluid -->
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="modals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark rounded">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-modal" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Perihal</label>
+                                <input type="text" class="form-control" id="perihal_pengajuan" name="perihal_pengajuan"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">File</label>
+                                <input type="file" class="form-control" id="file_pengajuan" name="file_pengajuan"
+                                    accept=".pdf">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Deskripsi</label>
+                                <textarea name="deskripsi_pengajuan" id="deskripsi_pengajuan" cols="5" rows="5"
+                                    style="text-decoration: none;" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h6 class="font-weight-bold">Pilih Pengesah</h6>
+                            <div class="table-responsive">
+                                <table id="table-pengesah" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Pilih</th>
+                                            <th>NIDN/NIP</th>
+                                            <th>Nama Pengesah</th>
+                                            <th>Jabatan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set count = 1 %}
+                                        {% for item in allUser %}
+                                        {% for item2 in pengesah %}
+                                        {% if item2.id_user_akun == item.id_user %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="pengesah[]"
+                                                        value="{{item2.id_user_akun}}"
+                                                        id="defaultCheck{{item2.id_user_akun}}">
+                                                    <label class="form-check-label"
+                                                        for="defaultCheck{{item2.id_user_akun}}">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>{{item.nip_user}}</td>
+                                            <td>{{item.nama_user}}</td>
+                                            <td>{{item.jabatan_user}}</td>
+                                        </tr>
+                                        {% set count = count + 1 %}
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <input type="text" id="operation" name="operation" hidden>
+                <input type="text" id="id_pengajuan" name="id_pengajuan" hidden>
+                <input type="text" id="old_nama_file" name="old_nama_file" hidden>
+                <button type="submit" class="btn btn-secondary" id="form-btn">Tambah</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detail-->
+<div class="modal fade" id="modals-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark rounded">
+                <h5 class="modal-title" id="exampleModalLabelDetail"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" id="table-detail">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.content -->
+{% endblock %}
+{% block js %}
+<script>
+    var base_url = "{{base_url}}";
+</script>
+<script src="{{base_url}}assets/action/pengajuan.js"></script>
+{% endblock %}

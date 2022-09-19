@@ -1,0 +1,247 @@
+{% extends "template/layout.html" %}
+{% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{page}}</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{base_url}}listPengajuan">Manajemen Pengajuan</a></li>
+                    <li class="breadcrumb-item active">Manajemen {{page}}</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <h4>
+                                Detail Pengajuan
+                                {% if level_akun_login == 1 and pengajuan.status_pengajuan == 0 %}
+                                <span class="float-right">
+                                    <button class="btn btn-primary btn-sm proses" id="{{pengajuan.id_pengajuan}}"
+                                        title="Pengajuan ditermia untuk diproses">Pengajuan
+                                        Diterima</button>
+                                    <button class="btn btn-danger btn-sm" id="btn-tolak"
+                                        title="Pengajuan ditolak">Pengajuan
+                                        Ditolak</button>
+                                </span>
+                                {% endif %}
+                            </h4>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td width="12%">Tanggal Pengajuan</td>
+                                    <td width="3%">:</td>
+                                    <td width="15%">{{pengajuan.tanggal_pengajuan|date('d F Y')}}</td>
+                                    <td width="5%"></td>
+                                    <td width="3%"></td>
+                                    <td width="20%"></td>
+                                    <td width="18%">Status Pengajuan</td>
+                                    <td width="3%">:</td>
+                                    <td width="25%">
+                                        {% if pengajuan.status_pengajuan == 0 %}
+                                        <span class="badge badge-warning p-2"> SEDANG DITINJAU </span>
+                                        {% elseif pengajuan.status_pengajuan == 1 %}
+                                        <span class="badge badge-primary p-2"> DALAM PROSES </span>
+                                        {% elseif pengajuan.status_pengajuan == 2 %}
+                                        <span class="badge badge-success p-2"> VERIFIED </span>
+                                        {% else  %}
+                                        <span class="badge badge-danger p-2"> DITOLAK </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                </tr>
+                                <tr>
+                                    <td>Perihal</td>
+                                    <td>:</td>
+                                    <td>{{pengajuan.perihal_pengajuan}}</td>
+                                    <td>File </td>
+                                    <td>:</td>
+                                    <td><a href="{{base_url}}assets/file/pengajuan/{{pengajuan.nama_file_pengajuan}}"
+                                            target="_blank" class="link-primary"> <i class="fa fa-file-pdf mr-2"></i>
+                                            {{pengajuan.nama_file_pengajuan}}</a>
+                                    </td>
+                                    <td>File yang Sudah Ditandatangani </td>
+                                    <td>:</td>
+                                    <td>
+                                        {% if pengajuan.nama_file_verified_pengajuan == "-" %}
+                                        -
+                                        {% else %}
+                                        <a href="{{base_url}}assets/file/dokumen_akhir/{{pengajuan.nama_file_verified_pengajuan}}"
+                                            target="_blank" class="link-primary"> <i class="fa fa-file-pdf mr-2"></i>
+                                            {{pengajuan.nama_file_verified_pengajuan}}</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Oleh </td>
+                                    <td>:</td>
+                                    <td>{{pengajuan.nama_user}}</td>
+                                    <td>Prodi</td>
+                                    <td>:</td>
+                                    <td>{{ pengajuan.prodi_user }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Deskripsi</td>
+                                    <td>:</td>
+                                    <td class="text-justify" colspan="8">{{pengajuan.deskripsi_pengajuan}}</td>
+                                </tr>
+                                {% if pengajuan.status_pengajuan == 3 %}
+                                <tr>
+                                    <td>Pesan Dari Bagian Akademik </td>
+                                    <td>:</td>
+                                    <td class="text-justify" colspan="8">{{pengajuan.pesan_pengajuan|raw}}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                            <h4>
+                                Riwayat
+                                <span class="float-right mt-2" style="font-size: 14px;">
+                                    <i class="fa fa-times text-danger mr-2" title="Belum Ditandatangani"></i> Belum
+                                    ditanda
+                                    tangani <span class="mr-2"></span>
+                                    <i class="fa fa-exclamation-triangle text-warning mr-2"
+                                        title="Belum diverifikasi"></i>
+                                    Belum diverifikasi <span class="mr-2"></span>
+                                    <i class="fa fa-check text-success mr-2" title="Sudah Ditandatangani"></i> Sudah
+                                    ditanda
+                                    tangani dan diverifikasi
+                                </span>
+                            </h4>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <th>No.</th>
+                                    <th>NIDN</th>
+                                    <th>Nama Penandatangan</th>
+                                    <th>Jabatan</th>
+                                    {% if level_akun_login == 1 %}
+                                    <th width="10%">Qr-Code</th>
+                                    {% endif %}
+                                    {% if level_akun_login == 2 %}
+                                    <th class="text-center" width="15%">Aksi</th>
+                                    {% endif %}
+                                    <th class="text-center">Status</th>
+                                </thead>
+                                <tbody>
+                                    {% set count = 1 %}
+                                    {% for item in detail %}
+                                    <tr>
+                                        <td>{{count}}</td>
+                                        <td>{{item.nip_user}}</td>
+                                        <td>{{item.nama_user}}</td>
+                                        <td>{{item.jabatan_user}}</td>
+                                        {% if level_akun_login == 1 %}
+                                        <td><a href="javascript:void(0)" class="btn-qr"
+                                                id="{{item.id_pengajuan_detail}}"><img
+                                                    src="{{base_url}}assets/file/images/{{item.qr_code}}" width="100%"
+                                                    alt="" class="img-thumbnail" alt="{{item.qr_code}}"></a></td>
+                                        {% endif %}
+                                        {% if level_akun_login == 2 %}
+                                        <td class="text-center">
+                                            {% if item.id_pengesah == id_user_akun_login and item.status == 0 %}
+                                            <button class="btn btn-primary btn-sm sign" id="{{item.id_pengajuan}}">
+                                                Tanda
+                                                Tangani Sekarang</button>
+                                            {% elseif item.status == 1 or item.status == 2 %}
+                                            <span class="badge badge-success p-2"> Sudah Ditandatangani </span>
+                                            {% elseif item.id_pengesah != id_user_akun_login and item.status == 0 %}
+                                            <span class="badge badge-secondary p-2"> - </span>
+                                            {% elseif pengajuan.status_pengajuan == 0 or pengajuan.status_pengajuan == 3 %}
+                                            <span class="badge badge-secondary p-2"> - </span>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+                                        <td class="text-center">
+                                            {% if item.status == 0 %}
+                                            <i class="fa fa-times text-danger" title="Belum Ditandatangani"></i>
+                                            {% elseif item.status == 1 %}
+                                            <i class="fa fa-exclamation-triangle text-warning"
+                                                title="Belum diverifikasi"></i>
+                                            {% elseif item.status == 2 %}
+                                            <i class="fa fa-check text-success" title="Sudah Ditandatangani"></i>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% set count = count + 1 %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/. container-fluid -->
+</section>
+
+<!-- Modal Detail-->
+<div class="modal fade" id="modal-qr" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark rounded">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="body-modal">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal ditolak-->
+<div class="modal fade" id="modal-tolak" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark rounded">
+                <h5 class="modal-title" id="exampleModalLabelTolak"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-tolak" method="post">
+                    <div class="form-group">
+                        <label for="" class="form-control-label">Pesan</label>
+                        <textarea name="pesan_pengajuan" id="pesan_pengajuan" cols="5" rows="15"
+                            style="text-decoration: none !important;" class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="text" id="status" name="status" value="3" hidden>
+                        <input type="text" id="id" name="id" value="{{pengajuan.id_pengajuan}}" hidden>
+                        <button type="submit" class="btn btn-secondary" id="form-btn">submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.content -->
+{% endblock %}
+{% block js %}
+<script>
+    var base_url = "{{base_url}}";
+</script>
+<script src="{{base_url}}assets/action/Pengajuan.js"></script>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "template/layout.html" %}
+{% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">{{page}}</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">{{page}}</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="d-inline">
+                            Profil User
+                            <span class="float-right">
+                                <div class="btn-group dropleft">
+                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" id="btn-edit" href="#"><i class="fas fa-edit"></i>
+                                            Edit</a>
+                                    </div>
+                                </div>
+                            </span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>Nama </td>
+                                <td> : </td>
+                                <td> {{user.nama_mhs}} </td>
+                            </tr>
+                            <tr>
+                                <td>NPM </td>
+                                <td> : </td>
+                                <td> {{user.nip_user}} </td>
+                            </tr>
+                            <tr>
+                                <td>Prodi </td>
+                                <td> : </td>
+                                <td> {{user.jabatan_user}} </td>
+                            </tr>
+                            <tr>
+                                <td>No. Telp</td>
+                                <td> : </td>
+                                <td> {{user.no_hp_user}} </td>
+                            </tr>
+                            <tr>
+                                <td>Email Akun </td>
+                                <td> : </td>
+                                <td> {{akun.email_akun}} </td>
+                            </tr>
+                            <tr> 
+                                <td>Level Akun </td>
+                                <td> : </td>
+                                <td> {{level.nama_level}} </td>
+                            </tr>
+                            <tr>
+                                <td>Dibuat Pada </td>
+                                <td> : </td>
+                                <td> {{user.created_at|date('d F Y H:i:sa')}} </td>
+                            </tr>
+                            <tr>
+                                <td>Dibuat Oleh </td>
+                                <td> : </td>
+                                <td> {{user.created_by}} </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="d-inline">
+                            Ganti Password
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="formEditPassword" method="post">
+                            <div class="form-group">
+                                <label for="password_lama" class="form-control-label">Password Lama</label>
+                                <input type="password" id="pass_lama" name="pass_lama" class="form-control " required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_baru" class="form-control-label">Password Baru</label>
+                                <input type="password" id="pass_baru" name="pass_baru" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Password kurang dari 8 karakter !
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="konfirmasi_password" class="form-control-label">Konfirmasi Password</label>
+                                <input type="password" id="conf_pass" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="savePassword"><i class="fa fa-save"></i>
+                                    Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/. container-fluid -->
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="modals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark rounded">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-modal" method="post">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Nama</label>
+                                <input type="text" class="form-control" id="nama_user" name="nama_user" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Prodi</label>
+                                <input type="text" class="form-control" id="jabatan_user" name="jabatan_user" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">NPM</label>
+                                <input type="text" class="form-control" id="nip_user" name="nip_user" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="form-control-label">No. Handphone</label>
+                                <input type="text" class="form-control" id="no_hp_user" name="no_hp_user" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="" class="form-control-label">Email</label>
+                                <input type="text" class="form-control" id="email_akun" name="email_akun" required>
+                                <div class="invalid-feedback">
+                                    Mohon masukan email yang valid !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <input type="text" name="level_akun" value="{{level_akun_login}}" hidden>
+                <input type="text" id="operation" name="operation" hidden>
+                <input type="text" id="id_user" name="id_user" value="{{id_user_akun_login}}" hidden>
+                <button type="submit" class="btn btn-secondary" id="form-btn">Tambah</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- /.content -->
+{% endblock %}
+{% block js %}
+<script>
+    var email_sekarang = '{{email_akun_login}}';
+</script>
+<script src="{{base_url}}assets/action/profilMhs.js"></script>
+{% endblock %}

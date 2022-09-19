@@ -1,0 +1,94 @@
+{% extends "template/layout.html" %}
+{% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Dashboard </li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-lg-6 p-4 bg-success  mb-3" data-aos="fade-up" data-aos-duration="1000"
+                data-aos-anchor-placement="top-bottom">
+                <div style="margin-top: 60px;">
+                    <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-anchor-placement="top-bottom">Selamat
+                        Datang Di Aplikasi Digital Signature</h1>
+                    <h6 data-aos="fade-up" data-aos-duration="1000" data-aos-anchor-placement="top-bottom">Aplikasi ini
+                        menyajikan tanda tangan digital yang mempermudah pihak pemohon tanda tangan yaitu Lembaga
+                        Keluarga Mahasiswa (LKM) yang terdiri dari Dewan Perwakilan Mahasiswa Fakultas Teknik, Badan
+                        Eksekutif Mahasiswa Fakultas Teknik, dan Himpunan yang ada di ruang lingkup Fakultas Teknik,
+                        kemudian pihak penandatangan yaitu Ketua Program Studi, Wakil Dekan III, Dekan, serta pihak
+                        pengecek validasi yaitu Akademik. Kemudian dapat mengamankan tanda tangan digital agar tidak
+                        terjadi pemalsuan serta dapat menentukan keabsahan tanda tangan.
+                    </h6>
+                </div>
+            </div>
+            <div class="col-lg-6 p-4  bg-success mb-3" data-aos="fade-up" data-aos-duration="1000"
+                data-aos-anchor-placement="top-bottom">
+                <img src="{{base_url}}assets/dist/img/banner-img.png" width="70%" class="img-fluid d-block mx-auto"
+                    alt="" data-aos="fade-up" data-aos-duration="1000" data-aos-anchor-placement="top-bottom">
+            </div>
+            {% if level_akun_login == 1 %}
+            <div class="col-12 col-sm-6 col-md-6">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-list-alt"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Pengajuan</span>
+                        <span class="info-box-number">
+                            {{pengajuan}}
+                            <small>Pengajuan</small>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-6">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">User</span>
+                        <span class="info-box-number">
+                            {{user}}
+                            <small>Orang</small>
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+            {% endif %}
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!--/. container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %}
+{% block js %}
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{{base_url}}assets/dist/js/pages/dashboard2.js"></script>
+<script src="{{base_url}}assets/action/dashboard.js"></script>
+{% endblock %}
